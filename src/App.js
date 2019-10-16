@@ -4,9 +4,11 @@ import { ulid } from 'ulid';
 
 import GlobalStyles from './style/Global';
 import TeamMembers from './components/TeamMembers';
+import Form from './components/Form';
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 0 1rem;
 `;
 
@@ -19,11 +21,14 @@ function App() {
       role: 'Fullstack Developer',
     },
   ]);
-  console.log(members);
+  const addMember = member => {
+    setMembers([...members, member]);
+  };
   return (
     <>
       <GlobalStyles />
       <Wrapper>
+        <Form addMember={addMember} />
         <TeamMembers teamMembers={members} />
       </Wrapper>
     </>
