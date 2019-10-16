@@ -5,6 +5,7 @@ const Wrapper = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   grid-gap: 1rem;
+  margin-top: 2rem;
 `;
 
 const TeamMembers = ({ teamMembers }) => {
