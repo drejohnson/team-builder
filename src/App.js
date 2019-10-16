@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
+import { ulid } from 'ulid';
 
 import GlobalStyles from './style/Global';
 import TeamMembers from './components/TeamMembers';
@@ -12,12 +13,13 @@ const Wrapper = styled.div`
 function App() {
   const [members, setMembers] = useState([
     {
-      id: 1,
+      id: ulid(),
       name: 'DeAndre Johnson',
       email: 'dre@gmail.com',
       role: 'Fullstack Developer',
     },
   ]);
+  console.log(members);
   return (
     <>
       <GlobalStyles />
