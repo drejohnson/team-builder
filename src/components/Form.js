@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
 import { ulid } from 'ulid';
 
@@ -17,16 +17,22 @@ const StyledButton = styled.button`
   display: flex;
 `;
 
-const Form = ({ addMember }) => {
+const Form = ({
+  addMember,
+  updateMember,
+  memberToEdit,
+  isEditng,
+  setIsEditing,
+}) => {
   const [member, setMember] = useState({
     name: '',
     email: '',
     role: '',
   });
 
-  const handleChanges = event => {
-    console.log(member);
-    setMember({ ...member, [event.target.id]: event.target.value });
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setMember({ ...member, [name]: value });
   };
 
   const submitForm = event => {
@@ -35,9 +41,17 @@ const Form = ({ addMember }) => {
       ...member,
       id: ulid(),
     };
-    addMember(newMember);
-    setMember({ name: '', email: '', role: '' });
+    if (isEditng) {
+      updateMember(member.id, member);
+    } else {
+      addMember(newMember);
+      setMember({ name: '', email: '', role: '' });
+    }
   };
+
+  useEffect(() => {
+    setMember(memberToEdit);
+  }, [memberToEdit]);
 
   return (
     <StyledForm onSubmit={submitForm}>
@@ -45,9 +59,10 @@ const Form = ({ addMember }) => {
         <label htmlFor='name'>Name</label>
         <input
           id='name'
+          name='name'
           type='text'
           value={member.name}
-          onChange={handleChanges}
+          onChange={handleChange}
         />
       </StyledEntry>
 
@@ -55,21 +70,32 @@ const Form = ({ addMember }) => {
         <label htmlFor='email'>Email</label>
         <input
           id='email'
+          name='email'
           type='text'
           value={member.email}
-          onChange={handleChanges}
+          onChange={handleChange}
         />
       </StyledEntry>
       <StyledEntry>
         <label htmlFor='role'>Role</label>
         <input
           id='role'
+          name='role'
           type='text'
           value={member.role}
-          onChange={handleChanges}
+          onChange={handleChange}
         />
       </StyledEntry>
-      <StyledButton type='submit'>Add Member</StyledButton>
+      {isEditng ? (
+        <>
+          <StyledButton type='submit'>Update</StyledButton>
+          <StyledButton onClick={() => setIsEditing(false)}>
+            Cancel
+          </StyledButton>
+        </>
+      ) : (
+        <StyledButton type='submit'>Add Member</StyledButton>
+      )}
     </StyledForm>
   );
 };

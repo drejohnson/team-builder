@@ -21,15 +21,44 @@ function App() {
       role: 'Fullstack Developer',
     },
   ]);
+  const [memberToEdit, setMemberToEdit] = useState({
+    id: '',
+    name: '',
+    email: '',
+    role: '',
+  });
+  const [isEditing, setIsEditing] = useState(false);
+
   const addMember = member => {
     setMembers([...members, member]);
+  };
+  const editMember = member => {
+    setIsEditing(true);
+    setMemberToEdit({
+      id: member.id,
+      name: member.name,
+      email: member.email,
+      role: member.role,
+    });
+  };
+  const updateMember = (id, updatedMember) => {
+    setIsEditing(false);
+    setMembers(
+      members.map(member => (member.id === id ? updatedMember : member)),
+    );
   };
   return (
     <>
       <GlobalStyles />
       <Wrapper>
-        <Form addMember={addMember} />
-        <TeamMembers teamMembers={members} />
+        <Form
+          addMember={addMember}
+          updateMember={updateMember}
+          memberToEdit={memberToEdit}
+          isEditng={isEditing}
+          setIsEditing={setIsEditing}
+        />
+        <TeamMembers members={members} editMember={editMember} />
       </Wrapper>
     </>
   );
