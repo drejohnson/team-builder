@@ -5,17 +5,18 @@ const Wrapper = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   grid-gap: 1rem;
+  margin-top: 2rem;
 `;
 
-const TeamMembers = ({ teamMembers }) => {
+const TeamMembers = ({ members, editMember }) => {
   return (
     <Wrapper>
-      {teamMembers.map(teamMember => (
-        <li key={teamMember.id}>
-          <h2>{teamMember.name}</h2>
-          <p>{teamMember.role}</p>
-          <p>{teamMember.email}</p>
-          <button>Edit</button>
+      {members.map(member => (
+        <li key={member.id}>
+          <h2>{member.name}</h2>
+          <p>{member.role}</p>
+          <p>{member.email}</p>
+          <button onClick={() => editMember(member)}>Edit</button>
         </li>
       ))}
     </Wrapper>
